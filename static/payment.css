@@ -1,0 +1,446 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #141E30;
+    --secondary-color: #243B55;
+    --accent-color: #4A90E2;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --light-bg: #f8f9fa;
+    --white: #ffffff;
+    --text-dark: #333;
+    --text-light: #666;
+    --border-color: #e0e0e0;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: var(--text-dark);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Alert Messages */
+.alert {
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    animation: slideDown 0.3s ease;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border-left: 4px solid var(--success-color);
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-left: 4px solid var(--danger-color);
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border-left: 4px solid var(--warning-color);
+}
+
+/* Ride Info Card */
+.ride-info {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: var(--shadow-lg);
+    animation: fadeIn 0.5s ease;
+}
+
+.ride-info h3 {
+    font-size: 24px;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ride-info h3::before {
+    content: "🚗";
+    font-size: 28px;
+}
+
+.ride-summary {
+    display: grid;
+    grid-template-columns: 1fr 200px;
+    gap: 30px;
+    align-items: center;
+}
+
+.ride-details {
+    display: grid;
+    gap: 15px;
+}
+
+.ride-details p {
+    font-size: 16px;
+    color: var(--text-dark);
+    padding: 12px;
+    background: var(--light-bg);
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.ride-details p:hover {
+    background: #e9ecef;
+    transform: translateX(5px);
+}
+
+.ride-details strong {
+    color: var(--primary-color);
+    font-weight: 600;
+    min-width: 140px;
+}
+
+.ride-details span {
+    color: var(--text-light);
+    font-weight: 500;
+    text-align: right;
+}
+
+.ride-img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    object-fit: cover;
+}
+
+.img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Form Container */
+#payment-form {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: var(--shadow-lg);
+    animation: fadeIn 0.6s ease;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 30px;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    font-size: 22px;
+    color: var(--primary-color);
+    margin-bottom: 25px;
+    font-weight: 700;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--accent-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.title::before {
+    content: "📍";
+    font-size: 24px;
+}
+
+.column:nth-child(2) .title::before {
+    content: "💳";
+}
+
+/* Input Boxes */
+.input-box {
+    margin-bottom: 20px;
+}
+
+.input-box span {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-dark);
+    font-weight: 500;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    background: var(--white);
+    color: var(--text-dark);
+}
+
+.input-box input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+    transform: translateY(-2px);
+}
+
+.input-box input::placeholder {
+    color: #999;
+}
+
+.flex {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+/* Payment Methods */
+.methods {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.method {
+    flex: 1;
+    min-width: 100px;
+    padding: 15px;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: var(--white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+}
+
+.method:hover {
+    border-color: var(--accent-color);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+}
+
+.method.selected {
+    border-color: var(--accent-color);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: var(--white);
+    transform: scale(1.05);
+    box-shadow: var(--shadow-lg);
+}
+
+.method img {
+    width: 60px;
+    height: auto;
+    border-radius: 6px;
+}
+
+.method span {
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 5px;
+}
+
+.method.selected span {
+    color: var(--white);
+}
+
+/* Total Amount */
+.total-amount {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.total-amount strong {
+    font-size: 28px;
+    color: var(--white);
+    font-weight: 700;
+}
+
+/* Submit Button */
+.btn {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: var(--white);
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: var(--shadow);
+    margin-top: 20px;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+}
+
+.btn:active {
+    transform: translateY(-1px);
+}
+
+.btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 968px) {
+    .row {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .ride-summary {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .ride-img {
+        max-width: 300px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    .container {
+        padding: 10px;
+    }
+    
+    .ride-info {
+        padding: 20px;
+    }
+    
+    #payment-form {
+        padding: 25px;
+    }
+    
+    .title {
+        font-size: 20px;
+    }
+    
+    .ride-details p {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .ride-details strong {
+        min-width: auto;
+    }
+    
+    .ride-details span {
+        text-align: left;
+    }
+    
+    .flex {
+        grid-template-columns: 1fr;
+    }
+    
+    .methods {
+        flex-direction: column;
+    }
+    
+    .method {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .ride-info h3 {
+        font-size: 20px;
+    }
+    
+    .ride-details p {
+        font-size: 14px;
+        padding: 10px;
+    }
+    
+    .input-box input {
+        padding: 12px 15px;
+        font-size: 14px;
+    }
+    
+    .btn {
+        padding: 15px;
+        font-size: 16px;
+    }
+    
+    .total-amount strong {
+        font-size: 24px;
+    }
+}

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Drive X</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='register.css') }}">
+</head>
+<body>
+    <div class="container" id="container">
+        <div class="form-container sign-up-container">
+            <form action="{{ url_for('register') }}" method="POST">
+                <h1>Create Account</h1>
+                <div class="social-container">
+                    <a href="#" class="social"><img src="{{ url_for('static', filename='image/facebook.jpg') }}"  alt="facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social"><img src="{{ url_for('static', filename='image/linkedin.jpg') }}"  alt="linkedin"><i class="fab fa-google-plus-g"></i></a>
+                    <a href="#" class="social"><img src="{{ url_for('static', filename='image/google.jpg') }}"  alt="google"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your email for registration</span>
+
+                <div class="infield">
+                    <select id="registrationType" name="registration_type">
+                        <option value="user">User</option>
+                        <option value="employee">Employee</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+
+                <div class="infield">
+                    <input type="text" placeholder="Name" name="name" id="name">
+                </div>
+                <div class="infield">
+                    <input type="email" placeholder="Email" name="email" id="emain">
+                </div>
+
+                <div id="userFields">
+                    <div class="infield">
+                        <input type="text" placeholder="License Number" name="license" id="license">
+                    </div>
+                </div>
+                <div id="employeeFields" class="employee-fields">
+                    <div class="infield">
+                        <input type="text" placeholder="Employee ID" name="employee_id" id="e_id">
+                    </div>
+                    <div class="infield">
+                        <input type="text" placeholder="Position" name="e_position" id="e_position">
+                    </div>
+                </div>
+                <div id="adminFields" class="admin-fields">
+                    <div class="infield">
+                        <input type="text" placeholder="admin ID" name="admin_id" id="a_id">
+                    </div>
+                    <div class="infield">
+                        <input type="text" placeholder="Position" name="a_position" id="a_position">
+                    </div>
+                </div>
+                <div class="infield">
+                    <input type="text" placeholder="Nid Number" name="nid" id="nid">
+                </div>
+                <div class="infield">
+                    <input type="password" placeholder="Password" name="password" id="password">
+                </div>
+                <div class="message">
+                    <div class="success" id="success">Successfully Registered</div>
+                    <div class="danger" id="danger">Fields Can't be Empty</div>
+                </div>
+                <button type="submit" onclick="message()">Sign Up</button>
+                
+
+            </form>
+        </div>
+        
+        <div class="form-container sign-in-container">
+            <form action="{{ url_for('login') }}" method="POST">
+                <h1>Sign in</h1>
+                <div class="social-container">
+                    <a href="#" class="social"><img src="{{ url_for('static', filename='image/facebook.jpg') }}"  alt="facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social"><img src="{{ url_for('static', filename='image/linkedin.jpg') }}"  alt="linkedin"><i class="fab fa-google-plus-g"></i></a>
+                    <a href="#" class="social"><img src="{{ url_for('static', filename='image/google.jpg') }}"  alt="google"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your account</span>
+                <div class="infield">
+                    <input type="email" placeholder="Email" name="email" id="loginEmail">
+                </div>
+                <div class="infield">
+                    <input type="password" placeholder="Password" name="password" id="loginPassword">
+                </div>
+                <div class="role-selection">
+                    <input type="radio" name="role" value="user" required>user
+                    <input type="radio" name="role" value="admin" required> Admin
+                    <input type="radio" name="role" value="employee" required> Employee
+                </div>
+                <div class="invalid" id="invalid" style="display: none;">Invalid username or password</div>
+                <a href="#" class="forgot">Forgot your password?</a>
+                <button type="submit" onclick="return validateLogin(event)">Sign In</button>
+            </form>
+        </div>
+
+        <div class="overlay-container" id="overlayCon">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>Welcome Back!</h1>
+                    <p>To keep connected with us please login with your personal info</p>
+                    <button>Sign In</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Enter your personal details and start journey with us</p>
+                    <button type="submit" id="signUpBtn">Sign Up</button>
+                </div>
+            </div>
+            <button id="overlayBtn"></button>
+        </div>
+    </div>
+
+    <footer></footer>
+    
+    <script>
+        //role in log in
+        function validateLogin(event) {
+            const role = document.querySelector('input[name="role"]:checked');
+            const email = document.getElementById('loginEmail');
+            const password = document.getElementById('loginPassword');
+            const invalid = document.getElementById('invalid');
+  
+            invalid.style.display = 'none';
+
+            if(email.value === '' || password.value === ''){
+                invalid.style.display = 'block';
+                event.preventDefault();
+                return false;
+            }
+        
+            return true;
+        }        
+
+        //admin user employee
+        const registrationType = document.getElementById('registrationType');
+        const userFields = document.getElementById('userFields');
+        const employeeFields = document.getElementById('employeeFields');
+        const adminFieldsFields = document.getElementById('adminFieldsFields');
+        
+        registrationType.addEventListener('change', () => {
+            if (registrationType.value === 'user') {
+                userFields.style.display = 'block';
+                employeeFields.style.display = 'none';
+                adminFields.style.display="none";
+            } 
+            else if (registrationType.value === 'employee') {
+                userFields.style.display = 'none';
+                employeeFields.style.display = 'block';
+                adminFields.style.display='none';
+            }
+            else if (registrationType.value === 'admin') {
+                userFields.style.display = 'none';
+                employeeFields.style.display = 'none';
+                adminFields.style.display='block';
+            }
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+            registrationType.dispatchEvent(new Event('change'));
+        });
+
+
+
+
+        //toggle
+        const container = document.getElementById('container');
+        const overlayCon = document.getElementById('overlayCon');
+        const overlayBtn = document.getElementById('overlayBtn');
+        
+
+    
+        overlayBtn.addEventListener('click', () => {
+            container.classList.toggle('right-panel-active');
+            overlayBtn.classList.remove('btnScaled');
+            window.requestAnimationFrame(() => {
+                overlayBtn.classList.add('btnScaled');
+            });
+        });
+
+
+        //message
+        function message(){
+            var name=document.getElementById('name')
+            var email=document.getElementById('email')
+            var license=document.getElementById('license')
+            var e_id=document.getElementById('e_id')
+            var e_position=document.getElementById('e_position')
+            var a_id=document.getElementById('a_id')
+            var a_position=document.getElementById('a_position')
+            var nid=document.getElementById('nid')
+            var password=document.getElementById('password')
+
+            const success = document.getElementById('success');
+            const danger = document.getElementById('danger');
+
+            if (registrationType.value === 'user'){
+                if (name.value === '' || email.value === '' || license.value === '' || nid.value===''||password.value===''){
+                    danger.style.display = 'block';
+                    event.preventDefault();
+                }
+                else{
+                    success.style.display = 'block';
+                    event.preventDefault();
+                }
+                
+            }
+            else if (registrationType.value === 'employee'){
+                if (name.value === '' || email.value === '' || e_id.value === '' || e_position.value === '' || nid.value===''||password.value===''){
+                    danger.style.display = 'block';
+                    event.preventDefault();
+                }
+                else{
+                    success.style.display = 'block';
+                    event.preventDefault();
+                }
+                
+            }
+            else if (registrationType.value === 'admin'){
+                if (name.value === '' || email.value === '' || a_id.value === '' || a_position.value === '' || nid.value===''||password.value===''){
+                    danger.style.display = 'block';
+                    event.preventDefault();
+                }
+                else{
+                    success.style.display = 'block';
+                    event.preventDefault();
+                }
+
+            
+            }
+        }
+
+    </script>
+</body>
+</html>

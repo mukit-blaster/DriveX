@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Drive X</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='register.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="form-container sign-in-container">
+            <form action="{{ url_for('login') }}" method="POST">
+                <h1>Sign in</h1>
+                <div class="social-container">
+                    <a href="#" class="social"><img src="{{ url_for('static', filename='image/facebook.jpg') }}" alt="facebook"></a>
+                    <a href="#" class="social"><img src="{{ url_for('static', filename='image/linkedin.jpg') }}" alt="linkedin"></a>
+                    <a href="#" class="social"><img src="{{ url_for('static', filename='image/google.jpg') }}" alt="google"></a>
+                </div>
+                <span>or use your account</span>
+                
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                
+                <div class="infield">
+                    <input type="email" placeholder="Email" name="email" id="loginEmail" required>
+                </div>
+                <div class="infield">
+                    <input type="password" placeholder="Password" name="password" id="loginPassword" required>
+                </div>
+                <div class="role-selection">
+                    <label><input type="radio" name="role" value="user" required> User</label>
+                    <label><input type="radio" name="role" value="admin" required> Admin</label>
+                    <label><input type="radio" name="role" value="employee" required> Employee</label>
+                </div>
+                <div class="invalid" id="invalid" style="display: none;">Invalid username or password</div>
+                <a href="#" class="forgot">Forgot your password?</a>
+                <button type="submit">Sign In</button>
+                <p>Don't have an account? <a href="{{ url_for('register') }}">Sign up</a></p>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        function validateLogin(event) {
+            const role = document.querySelector('input[name="role"]:checked');
+            const email = document.getElementById('loginEmail');
+            const password = document.getElementById('loginPassword');
+            const invalid = document.getElementById('invalid');
+  
+            invalid.style.display = 'none';
+
+            if(email.value === '' || password.value === '' || !role){
+                invalid.style.display = 'block';
+                event.preventDefault();
+                return false;
+            }
+        
+            return true;
+        }
+        
+        document.querySelector('form').addEventListener('submit', validateLogin);
+    </script>
+</body>
+</html>
+

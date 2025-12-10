@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drive X - User Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='user_dashboard.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+
+</head>
+<body>
+    <header class="top-header">
+        <div class="nav-bar">
+            <div class="logo">
+                <a href="/">DriveX</a>
+            </div>
+            <nav class="nav-links">
+                <a class="nav-link-a" href="#">Ride</a>
+                <a class="nav-link-a" href="#">Drive</a>
+                <a class="nav-link-a" href="#">Business</a>
+                <div class="dropdown">
+                    <a href="#" class="dropdown-toggle" id="about-button">About</a>
+                    <div class="dropdown-menu" id="about-menu">
+                        <a href="#">About Us</a>
+                        <a href="#">How It Works</a>
+                        <a href="#">Careers</a>
+                        <a href="#">Privacy Policy</a>
+                    </div>
+                </div>
+            </nav>
+            <div class="right-options">
+                <div class="language-selector">
+                    <p id="language-button">EN</p>
+                    <div class="language-menu" id="language-menu">
+                        <a href="?lang=en" data-lang="en">English</a>
+                        <a href="?lang=bn" data-lang="bn">বাংলা</a>
+                        <a href="?lang=fr" data-lang="fr">Français</a>
+                        <a href="?lang=es" data-lang="es">Español</a>
+                    </div>
+                </div>
+                <a href="#">Help</a>
+                <div class="user-menu">
+                    <p id="username">{{ username }}</p>
+                    <div id="floating-window" class="floating-window hidden">
+                        <div class="floating-header">
+                            <span class="username">{{ username }}</span>
+                            <div class="profile-icon">👤</div>
+                        </div>
+                        <div class="floating-buttons">
+                            <button onclick="window.location.href='{{ url_for('help') }}'">Help</button>
+                            <button onclick="window.location.href='{{ url_for('wallet') }}'">Wallet</button>
+                            <button onclick="window.location.href='{{ url_for('activity') }}'">Activity</button>
+                        </div>
+                        <hr />
+                        <ul class="menu-options">
+                            <li>Manage account</li>
+                            <li>Ride</li>
+                        </ul>
+                        <form action="{{ url_for('logout') }}" method="post" style="display: inline;">
+                            <button type="submit" class="sign-out">Sign out</button>
+                        </form>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="black-bar">
+            <div class="black-bar-content">
+                <div id="Welcome">
+                    <p>Welcome back ,</p>
+                    <p id="username">{{ username }}</p>
+                </div>
+                <div class="options">
+                    <a href="{{ url_for('wallet') }}">Wallet</a>
+                    <a href="{{ url_for('activity') }}">Activity</a>
+                    <a href="#">Account</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <section class="main-content">
+            <div class="intro">
+                <h1>Go anywhere with<br> Drive X</h1>
+                <form id="ride-form">
+                    <div class="form-group">
+                        <label>Pickup location</label>
+                        <input type="text" id="pickup-location" placeholder="Enter pickup location">
+                        <div id="suggestions" class="suggestions"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Dropoff location</label>
+                        <input type="text" id="dropoff-location" placeholder="Enter dropoff location">
+                        <div id="dropoff-suggestions" class="suggestions"></div>
+                    </div>
+                    <button type="button"onclick="redirectToRoute()" onclick="window.location.href='/route'">See Price</button>
+
+                </form>
+            </div>
+            <div id="image">
+                <img src="{{ url_for('static', filename='image/user.jpg') }}" alt="Drive X Image" id="user-image">
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-container">
+            <!-- Uber Logo and Help Center -->
+            <div class="footer-section">
+                <h2>Drive X</h2>
+                <a href="#">Visit Help Center</a>
+            </div>
+    
+            <!-- Footer Links -->
+            <div class="footer-links">
+                <div>
+                    <h3>Company</h3>
+                    <a href="#">About us</a>
+                    <a href="#">Our offerings</a>
+                    <a href="#">Newsroom</a>
+                    <a href="#">Investors</a>
+                    <a href="#">Blog</a>
+                    <a href="#">Careers</a>
+                </div>
+                <div>
+                    <h3>Products</h3>
+                    <a href="#">Ride</a>
+                    <a href="#">Drive</a>
+                    <a href="#">Deliver</a>
+                    <a href="#">Eat</a>
+                    <a href="#">Drive X for Business</a>
+                    <a href="#">Drive X Freight</a>
+                    <a href="#">Gift cards</a>
+                </div>
+                <div>
+                    <h3>Global citizenship</h3>
+                    <a href="#">Safety</a>
+                    <a href="#">Diversity and Inclusion</a>
+                    <a href="#">Sustainability</a>
+                </div>
+                <div>
+                    <h3>Travel</h3>
+                    <a href="#">Reserve</a>
+                    <a href="#">Cities</a>
+                </div>
+            </div>
+    
+            <!-- Social Media and App Links -->
+            <div class="footer-social">
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+                <div class="app-links">
+                    <a href="#"><img src="{{ url_for('static', filename='image/playstore.jpg') }}"  alt="Google Play"></a>
+                    <a href="#"><img src="{{ url_for('static', filename='image/appstore.jpg') }}"  alt="App Store"></a>
+                </div>
+            </div>
+    
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <p>&copy; 2024 Drive X Technologies Inc.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy</a>
+                    <a href="#">Accessibility</a>
+                    <a href="#">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        //about menu
+        const aboutButton = document.getElementById("about-button");
+        const aboutMenu = document.getElementById("about-menu");
+
+        aboutButton.addEventListener("click", (event) => {
+            event.preventDefault();
+            aboutMenu.classList.toggle("show");
+        });
+
+        window.addEventListener("click", (event) => {
+            if (!aboutButton.contains(event.target) && !aboutMenu.contains(event.target)) {
+                aboutMenu.classList.remove("show");
+            }
+        });
+
+
+        //usermenu
+        const username = document.getElementById("username");
+        const floatingWindow = document.getElementById("floating-window");
+
+        // Toggle the floating window on username click
+        username.addEventListener("click", () => {
+            floatingWindow.classList.toggle("visible");
+        });
+
+        // Close the floating window if clicked outside
+        document.addEventListener("click", (event) => {
+            if (!username.contains(event.target) && !floatingWindow.contains(event.target)) {
+                floatingWindow.classList.remove("visible");
+            }
+        });
+
+        //language
+        const languageButton = document.getElementById("language-button");
+        const languageMenu = document.getElementById("language-menu");
+
+        languageButton.addEventListener("click", (event) => {
+            event.stopPropagation();
+            languageMenu.classList.toggle("show");
+        });
+
+        window.addEventListener("click", (event) => {
+            if (!languageButton.contains(event.target) && !languageMenu.contains(event.target)) {
+                languageMenu.classList.remove("show");
+            }
+        });
+
+        //map
+
+        let marker;
+        let routeControl;
+        let pickupLocation;
+        let dropoffLocation;
+        let debounceTimer;
+
+        document.getElementById('pickup-location').addEventListener('input', function() {
+            handleInput(this, 'suggestions');
+        });
+
+        document.getElementById('dropoff-location').addEventListener('input', function() {
+            handleInput(this, 'dropoff-suggestions');
+        });
+
+        function handleInput(inputElement, suggestionsElementId) {
+            const query = inputElement.value.trim();
+
+            if (query.length < 3) {
+                document.getElementById(suggestionsElementId).innerHTML = '';
+                return;
+            }
+
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => fetchSuggestions(query, suggestionsElementId), 300);
+        }
+
+        async function fetchSuggestions(query, suggestionsElementId) {
+            try {
+                const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`, {
+                    headers: {
+                        "User-Agent": "DriveX (samiulalim01234@gmail.com)"
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok. Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                displaySuggestions(data, suggestionsElementId);
+            } catch (error) {
+                console.error("Error fetching suggestions:", error);
+                document.getElementById(suggestionsElementId).innerHTML = "<div class='error'>Failed to load suggestions. Try again.</div>";
+            }
+        }
+
+        //suggestion display
+        function displaySuggestions(data, suggestionsElementId) {
+            const suggestionsBox = document.getElementById(suggestionsElementId);
+            suggestionsBox.innerHTML = '';
+
+            data.forEach(place => {
+                const suggestion = document.createElement('div');
+                suggestion.classList.add('suggestion-item');
+                suggestion.textContent = place.display_name;
+                suggestion.addEventListener('click', () => {
+                    if (suggestionsElementId === 'suggestions') {
+                        document.getElementById('pickup-location').value = place.display_name;
+                        pickupLocation = { lat: place.lat, lon: place.lon };
+                    } else {
+                        document.getElementById('dropoff-location').value = place.display_name;
+                        dropoffLocation = { lat: place.lat, lon: place.lon };
+                    }
+                    suggestionsBox.innerHTML = '';
+                    showLocationOnMap(place.lat, place.lon);
+
+                    // If both locations are selected, show the route
+                    if (pickupLocation && dropoffLocation) {
+                        showRoute(pickupLocation, dropoffLocation);
+                    }
+                });
+                suggestionsBox.appendChild(suggestion);
+            });
+        }
+
+        function showLocationOnMap(lat, lon) {
+            if (marker) {
+                map.removeLayer(marker);
+            }
+            marker = L.marker([lat, lon]).addTo(map);
+            map.setView([lat, lon], 14);
+        }
+
+        function showRoute(pickup, dropoff) {
+            if (routeControl) {
+                routeControl.setWaypoints([L.latLng(pickup.lat, pickup.lon), L.latLng(dropoff.lat, dropoff.lon)]);
+            } else {
+        
+                routeControl = L.Routing.control({
+                    waypoints: [
+                        L.latLng(pickup.lat, pickup.lon),
+                        L.latLng(dropoff.lat, dropoff.lon)
+                    ],        
+                    routeWhileDragging: true
+
+                }).addTo(map);
+            }
+            
+        }
+        function redirectToRoute() {
+            const pickup = document.getElementById('pickup-location').value;
+            const dropoff = document.getElementById('dropoff-location').value;
+            window.location.href = `/route?pickup=${encodeURIComponent(pickup)}&dropoff=${encodeURIComponent(dropoff)}`;
+        }
+    </script>
+</body>
+</html>

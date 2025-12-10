@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Dashboard - Drive X</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='employee_dashboard.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Employee Dashboard</h1>
+        <nav>
+            <ul>
+                <h1>DriveX</h1>
+                <li><a href="#" class="nav-link" data-target="add-car">Add Car</a></li>
+                <li><a href="#" class="nav-link" data-target="delete-car">Delete Car</a></li>
+                <li><a href="#" class="nav-link" data-target="search-car">Search Cars</a></li>
+                <li><a href="#" class="nav-link" data-target="view-cars">View All Cars</a></li>
+                <p>Account</p>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="add-car" class="section visible">
+            <h2>Add a New Car</h2>
+            <form id="addCarForm" method="POST" action="{{ url_for('employee_dashboard') }}">
+                <input type="hidden" name="action" value="add_car">
+                <div class="form-group">
+                    <label for="carVIN_No">Car VIN No:</label>
+                    <input type="text" id="carVIN_No" name="carVIN_No" required>
+                </div>
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="model">Model:</label>
+                    <input type="text" id="model" name="model" required>
+                </div>
+                <div class="form-group">
+                    <label for="capacity">Capacity:</label>
+                    <input type="number" id="capacity" name="capacity" required>
+                </div>
+                <div class="form-group">
+                    <label for="color">Color:</label>
+                    <input type="text" id="color" name="color" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="image_url">Image URL:</label>
+                    <input type="url" id="image_url" name="image_url">
+                </div>
+                <div class="form-group">
+                    <label for="plate_num">Plate Number:</label>
+                    <input type="text" id="plate_num" name="plate_num" required>
+                </div>
+                <div class="form-group">
+                    <label for="price">Price:</label>
+                    <input type="number" step="0.01" id="price" name="price" required>
+                </div>
+                <div class="form-group">
+                    <label for="pickup_point_id">Pickup Point:</label>
+                    <select id="pickup_point_id" name="pickup_point_id" required>
+                        <option value="">Select a pickup point</option>
+                        {% for point in pickup_points %}
+                        <option value="{{ point._id }}">{{ point.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit">Add Car</button>
+            </form>
+        </section>
+
+        <!-- Delete Car Section -->
+        <section id="delete-car" class="section hidden">
+            <h2>Delete a Car</h2>
+            <form id="deleteCarForm" method="POST" action="{{ url_for('employee_dashboard') }}">
+                <input type="hidden" name="action" value="delete_car">
+                <div class="form-group">
+                    <label for="car_id">Car ID (MongoDB ObjectId):</label>
+                    <input type="text" id="car_id" name="car_id" required placeholder="e.g., 507f1f77bcf86cd799439011">
+                </div>
+                <button type="submit">Delete Car</button>
+            </form>
+        </section>
+
+        <!-- Search Car Section -->
+        <section id="search-car" class="section hidden">
+            <h2>Search Cars</h2>
+            <form id="searchCarForm">
+                <div class="form-group">
+                    <label for="search_query">Search:</label>
+                    <input type="text" id="search_query" name="search_query" required>
+                </div>
+                <button type="submit">Search</button>
+            </form>
+            <table id="searchResults">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>VIN</th>
+                        <th>Name</th>
+                        <th>Model</th>
+                        <th>Capacity</th>
+                        <th>Color</th>
+                        <th>Pickup Point</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Rows will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- View All Cars Section -->
+        <section id="view-cars" class="section hidden">
+            <h2>All Cars</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>VIN</th>
+                        <th>Name</th>
+                        <th>Model</th>
+                        <th>Capacity</th>
+                        <th>Color</th>
+                        <th>Pickup Point</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for car in cars %}
+                    <tr>
+                        <td>{{ car.id }}</td>
+                        <td>{{ car.carVIN_No }}</td>
+                        <td>{{ car.name }}</td>
+                        <td>{{ car.model }}</td>
+                        <td>{{ car.capacity }}</td>
+                        <td>{{ car.color }}</td>
+                        <td>{{ car.pickup_point_name if car.pickup_point_name else car.pickup_point_id }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='employee_dashboard.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - Drive X</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='payment.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Ride Details Section -->
+        <div id="ride-info" class="ride-info">
+            <h3>Ride Details</h3>
+            <div class="ride-summary">
+                <div class="ride-details">
+                    <p><strong>Car Name:</strong> <span id="car-name">{{ car_name }}</span></p>
+                    <p><strong>Number Plate:</strong> <span id="plate-num">{{ plate_num }}</span></p>
+                    <p><strong>From:</strong> <span id="pickup-loc">{{ pickup }}</span></p>
+                    <p><strong>To:</strong> <span id="dropoff-loc">{{ dropoff }}</span></p>
+                    <p><strong>Distance:</strong> <span id="distance">{{ distance_km }} km</span></p>
+                    <p><strong>Price:</strong> <span id="price-display">BDT {{ "%.2f"|format(price) }}</span></p>
+                    <p><strong>Booking Time:</strong> <span id="booking-time">{{ booking_time }}</span></p>
+                </div>
+                <div class="img">
+                    <img src="{{ url_for('static', filename='image/' + car_image) }}" 
+                         alt="{{ car_name }}" class="ride-img">
+                </div>
+            </div>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('payment') }}" method="post" id="payment-form">
+            <div class="row">
+                <div class="column">
+                    <h3 class="title">Billing Address</h3>
+                    <div class="input-box">
+                        <span>Full Name :</span>
+                        <input type="text" name="name" placeholder="Enter your name" required>
+                    </div>
+                    <div class="input-box">
+                        <span>Email :</span>
+                        <input type="email" name="email" placeholder="example@gmail.com" required>
+                    </div>
+                    <div class="input-box">
+                        <span>Address : </span>
+                        <input type="text" name="address" placeholder="Permanent Address" required>
+                    </div>
+                    <div class="input-box">
+                        <span>City :</span>
+                        <input type="text" name="city" placeholder="Dhaka" required>
+                    </div>
+                    <div class="flex">
+                        <div class="input-box">
+                            <span>State :</span>
+                            <input type="text" name="state" placeholder="Bangladesh" required>
+                        </div>
+                        <div class="input-box">
+                            <span>Zip Code :</span>
+                            <input type="text" name="zip_code" placeholder="6100" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <h3 class="title">Payment</h3>
+                    <div class="input-box">
+                        <span>Payment Method :</span>
+                        <div class="methods">
+                            <div class="method" data-method="bkash">
+                                <img src="{{ url_for('static', filename='image/bkash.jpg') }}" alt="bKash">
+                                <span>bKash</span>
+                            </div>
+                            <div class="method" data-method="nagad">
+                                <img src="{{ url_for('static', filename='image/nagad.jpg') }}" alt="Nagad">
+                                <span>Nagad</span>
+                            </div>
+                            <div class="method" data-method="rocket">
+                                <img src="{{ url_for('static', filename='image/rocket.jpg') }}" alt="Rocket">
+                                <span>Rocket</span>
+                            </div>
+                        </div>
+                        <input type="hidden" name="payment_method" id="payment_method" required>
+                    </div>
+                    <div class="input-box">
+                        <span>Account Holder Name :</span>
+                        <input type="text" name="account_holder" placeholder="Enter account holder name" required>
+                    </div>
+                    <div class="input-box">
+                        <span>Account/Mobile Number : </span>
+                        <input type="text" name="account_number" placeholder="01XXXXXXXXX" pattern="[0-9]{11}" required>
+                    </div>
+                    <div class="input-box">
+                        <span>Total Amount :</span>
+                        <div class="total-amount">
+                            <strong>BDT {{ "%.2f"|format(price) }}</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn" id="submit-btn">Confirm Payment</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const methods = document.querySelectorAll('.method');
+            const paymentMethodInput = document.getElementById('payment_method');
+            const submitBtn = document.getElementById('submit-btn');
+            const paymentForm = document.getElementById('payment-form');
+
+            // Handle payment method selection
+            methods.forEach((method) => {
+                method.addEventListener('click', () => {
+                    methods.forEach((m) => m.classList.remove('selected'));
+                    method.classList.add('selected');
+                    paymentMethodInput.value = method.dataset.method;
+                });
+            });
+
+            // Calculate distance if pickup and dropoff are available
+            const pickup = document.getElementById('pickup-loc').textContent.trim();
+            const dropoff = document.getElementById('dropoff-loc').textContent.trim();
+            
+            if (pickup && dropoff && pickup !== 'Not specified' && dropoff !== 'Not specified') {
+                fetch('/calculate_distance', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        pickup: pickup,
+                        dropoff: dropoff
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.distance_km && data.price) {
+                        document.getElementById('distance').textContent = data.distance_km + ' km';
+                        document.getElementById('price-display').textContent = 'BDT ' + data.price.toFixed(2);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error calculating distance:', error);
+                });
+            }
+
+            // Form validation
+            paymentForm.addEventListener('submit', (e) => {
+                if (!paymentMethodInput.value) {
+                    e.preventDefault();
+                    alert('Please select a payment method');
+                    return false;
+                }
+                
+                // Show loading state
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Processing...';
+            });
+
+            // Update booking time display
+            const now = new Date();
+            const bookingTimeDisplay = now.toLocaleString('en-US', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            document.getElementById('booking-time').textContent = bookingTimeDisplay;
+        });
+    </script>
+</body>
+</html>

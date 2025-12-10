@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet - Drive X</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='user_dashboard.css') }}">
+    <style>
+        .wallet-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+        .wallet-header {
+            background: linear-gradient(135deg, #141E30 0%, #243B55 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .wallet-header h1 {
+            margin: 0 0 10px 0;
+            font-size: 28px;
+        }
+        .balance-display {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .transactions-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .transactions-section h2 {
+            color: #141E30;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            transition: background-color 0.3s ease;
+        }
+        .transaction-item:hover {
+            background-color: #f5f5f5;
+        }
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+        .transaction-info {
+            flex: 1;
+        }
+        .transaction-info h3 {
+            margin: 0 0 5px 0;
+            color: #333;
+            font-size: 18px;
+        }
+        .transaction-info p {
+            margin: 5px 0;
+            color: #666;
+            font-size: 14px;
+        }
+        .transaction-amount {
+            font-size: 20px;
+            font-weight: bold;
+            color: #dc3545;
+        }
+        .transaction-date {
+            color: #999;
+            font-size: 12px;
+        }
+        .no-transactions {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+        @media (max-width: 768px) {
+            .wallet-container {
+                padding: 0 10px;
+            }
+            .balance-display {
+                font-size: 36px;
+            }
+            .transaction-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .transaction-amount {
+                align-self: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="top-header">
+        <div class="nav-bar">
+            <div class="logo">
+                <a href="/">DriveX</a>
+            </div>
+            <nav class="nav-links">
+                <a class="nav-link-a" href="{{ url_for('user_dashboard') }}">Dashboard</a>
+                <a class="nav-link-a" href="{{ url_for('wallet') }}">Wallet</a>
+                <a class="nav-link-a" href="{{ url_for('activity') }}">Activity</a>
+            </nav>
+            <div class="right-options">
+                <div class="user-menu">
+                    <p id="username">{{ username }}</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="wallet-container">
+        <div class="wallet-header">
+            <h1>My Wallet</h1>
+            <p>Total Spent</p>
+            <div class="balance-display">BDT {{ "%.2f"|format(total_balance) }}</div>
+        </div>
+
+        <div class="transactions-section">
+            <h2>Transaction History</h2>
+            {% if transactions %}
+                {% for transaction in transactions %}
+                <div class="transaction-item">
+                    <div class="transaction-info">
+                        <h3>{{ transaction.description }}</h3>
+                        <p>Payment Method: {{ transaction.payment_method|title }}</p>
+                        <p class="transaction-date">{{ transaction.created_at[:19] if transaction.created_at else 'N/A' }}</p>
+                    </div>
+                    <div class="transaction-amount">
+                        -BDT {{ "%.2f"|format(transaction.amount) }}
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-transactions">
+                    <p>No transactions yet.</p>
+                    <p>Your payment history will appear here.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,579 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+:root {
+    --linear-grad: linear-gradient(to right, #141E30, #243B55);
+    --grad-clr1: #141E30;
+    --grad-clr2: #243B55;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f6f5f7;
+    color: #333;
+}
+
+/* Header */
+header {
+    background-color: var(--grad-clr2);  /* Dark background color */
+    padding: 1rem 4%;       /* Spacing around the content */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Poppins', sans-serif ;
+}
+
+/* Logo */
+header .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+}
+header .logo a{
+    text-decoration: none;
+    color: white;
+}
+
+/* Menu */
+
+header .menu {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem; /* Spacing between each menu item */
+}
+
+header .menu li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 0.5rem;
+    transition: color 0.3s ease;
+    font-weight: 500;
+}
+
+header .menu li a:hover {
+    color: #ccc;
+}
+
+.user-menu {
+    background-color: white;
+    border: 1px solid var(--grad-clr1);
+    color: #000;
+    padding: 0.3rem 0.3rem;
+    border-radius: 999px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+}
+.user-menu:hover {
+    border: 1px solid var(--grad-clr1);
+    background-color:var(--grad-clr2);
+    color: white;
+}
+
+#floating-window {
+    color: black;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background-color: white;
+    box-shadow: 10px 15px 25px #5556;
+    border-radius: 10px;
+    width: 250px;
+    z-index: 1000;
+    display: none; /* Initially hidden */
+}
+
+#floating-window.visible {
+    display: block;
+}
+
+.floating-header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.floating-header .username {
+    font-size: 22px;
+    font-weight: bold;
+    flex: 1.2;
+    color: black;
+}
+
+.profile-icon {
+    width: 45px;
+    height: 45px;
+    background-color: #ececec;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 40px;
+}
+
+.floating-buttons {
+    display: flex;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    height: 80px;
+    width: 200px;
+    gap: 10px;
+    padding-left: 30px;
+    opacity: 80%;
+
+}
+
+.floating-buttons button {
+    border: none;
+    background-color: #ececec;
+    color: black;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.floating-buttons button:hover {
+    background-color: var(--grad-clr2);
+    color: white;
+}
+
+.menu-options {
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+    opacity: 50%;
+}
+
+.menu-options li {
+    padding: 8px 10px;
+    cursor: pointer;
+    
+}
+
+.menu-options li:hover {
+    background-color: #ececec;
+    opacity: 100%;
+}
+
+.sign-out {
+    width: 100%;
+    border: none;
+    padding: 10px;
+    color: red;
+    background-color: #ececec;
+    cursor: pointer;
+    border-top: 1px solid #e0e0e0;
+}
+
+.sign-out:hover {
+    background-color:var(--grad-clr2);
+    color: white;
+
+
+}
+
+.user-menu span{
+    margin-left: 10px; 
+    justify-content: center;
+    color: white;
+}
+
+
+
+/* Main container */
+.container {
+    display: flex;
+    justify-content: space-between; /* Adjust this as needed */
+    width: 100%;
+    padding: 10px;
+    flex-direction: row;
+    max-width: 1400px;
+    height: inherit;
+    margin: 2rem auto;
+    gap: 2rem;
+}
+
+/* Ride selection section */
+.ride-selection{
+    width: 22%;
+    height: fit-content;
+    padding: 1.5rem;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.ride-options{
+    width: 22%;
+    height: auto;
+    padding: 1.5rem;
+    border-radius: 10px;
+    display: none;
+}
+.ride-options2{
+    width: 22%;
+    height: auto;
+    padding: 1.5rem;
+    border-radius: 10px;
+    display: none;
+}
+
+
+.ride-selection h2, .ride-options h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color:var(--grad-clr2);
+}
+
+.input-group {
+    margin-bottom: 1rem;
+}
+
+.input-group label {
+    display: block;
+    font-size: 0.85rem;
+    margin-bottom: 0.1rem;
+    color: #888;
+}
+
+.input-group input, .input-group select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.suggestions {
+    width: fit-content;
+    height: fit-content;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    max-height: 250px;
+    overflow-y: auto;
+    z-index: 1000;
+    padding: 0;
+}
+.suggestion-item {
+    padding: 12px 16px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid #f0f0f0;
+}
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item:hover {
+    background-color: #ddd;
+}
+
+.suggestions .error {
+    padding: 12px 16px;
+    color: red;
+    font-size: 14px;
+}
+
+button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: var(--grad-clr2);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 1rem;
+    width: 100%;
+}
+#request-ride{
+    position: fixed;
+    bottom: 20px;
+    left: 44%; 
+    transform: translateX(-50%);
+    width: 90%; 
+    max-width: 550px; 
+    background-color: var(--grad-clr2);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 10px 15px 25px #5556;
+    padding: 0.75rem 1.5rem; 
+
+}
+
+
+/* Ride options */
+.ride-options {
+    position: relative;
+    width: 55%;
+    height: 600px;
+    padding: 1.5rem; 
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    display: none;
+}
+
+.ride-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    z-index: 1000;
+}
+
+.ride-option:hover{
+    background-color: #ececec;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    width: fit-content;
+    height: fit-content;
+}
+
+.ride-option.selected {
+    background-color: #ececec;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    width: fit-content;
+    height: fit-content;
+}
+
+.ride-type{
+    display: flex;
+    font-size: 1.1rem;
+    color:var(--grad-clr2);
+    height: fit-content;
+    width: fit-content;
+    cursor: pointer;
+}
+
+
+
+
+.ride-type img{
+    width: 90px;
+    height: fit-content;
+    margin-top: 10px;
+}
+.details{
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    color: var(--grad-clr1);
+    margin-left: 20px;
+    font-family: 'Poppins', sans-serif;
+}
+.details p{
+    font-weight:normal;
+    font-size: smaller;
+    opacity: 70%;
+    color: rgb(75, 75, 75);
+}
+
+.ride-price {
+    margin-top: 10px;
+}
+
+
+.ride-price .original {
+    font-family: system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bolder;
+    font-size: 25px;
+    color: var(--grad-clr1);
+}
+
+/*ride option2*/
+.ride-options2 {
+    position: relative;
+    width: 55%;
+    height: 600px;
+    padding: 1.5rem; 
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    display: none;
+    transition: width 4s ease;
+}
+
+/* Map container */
+
+.map-container {
+    width: 100%;
+    height: 600px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 10px 15px 25px #5556;
+    transition: width 0.5s ease;
+    z-index: 1;
+}
+.leaflet-routing-container {
+    transition: max-height 0.3s ease-in-out;
+    overflow: hidden;
+    opacity: 80%;
+    width:150px;
+}
+
+.leaflet-routing-container.minimized {
+    max-width: 20px;
+    max-height: 20px;
+}
+
+/* Payment and Request Ride */
+.payment-request {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.payment-request .payment-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    color: #333;
+}
+
+.payment-request button {
+    width: auto;
+    padding: 0.75rem 1.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .container {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .ride-selection {
+        width: 100%;
+    }
+    
+    .ride-options,
+    .ride-options2 {
+        width: 100%;
+        height: auto;
+        max-height: 500px;
+    }
+    
+    .map-container {
+        width: 100%;
+        height: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1rem 2%;
+    }
+    
+    header .menu {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .container {
+        flex-direction: column;
+        padding: 10px;
+        margin: 1rem auto;
+    }
+
+    .ride-selection, 
+    .ride-options, 
+    .ride-options2,
+    .map-container {
+        width: 100%;
+    }
+    
+    .ride-selection {
+        padding: 1rem;
+    }
+    
+    .ride-option {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .ride-type {
+        width: 100%;
+    }
+    
+    .details {
+        width: 100%;
+        margin-left: 0;
+    }
+    
+    .user-menu {
+        width: 100%;
+        text-align: center;
+    }
+    
+    #floating-window {
+        width: 100%;
+        right: 0;
+        left: 0;
+    }
+    
+    #request-ride {
+        left: 50%;
+        width: 95%;
+    }
+}
+
+@media (max-width: 480px) {
+    header .logo {
+        font-size: 1.2rem;
+    }
+    
+    header .menu li a {
+        font-size: 0.9rem;
+        padding: 0.3rem;
+    }
+    
+    .ride-selection h2,
+    .ride-options h1 {
+        font-size: 1.1rem;
+    }
+    
+    .input-group input,
+    .input-group select {
+        padding: 0.4rem;
+        font-size: 14px;
+    }
+    
+    .ride-price .original {
+        font-size: 20px;
+    }
+    
+    .map-container {
+        height: 300px;
+    }
+    
+    button {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+}

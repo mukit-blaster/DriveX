@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drive X - Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">Drive X</div>
+        <ul class="menu">
+            <li><a href="#">Ride</a></li>
+            <li><a href="#">Drive</a></li>
+            <li><a href="#">Business</a></li>
+            <li><a href="#">About</a></li>
+        </ul>
+        <div>
+            <span>
+                <a href="/register"class="login-link">Log in</a>
+            </span>
+            <a href="/register" class="signup-btn">Sign up</a>
+        </div>
+    </header>
+    
+    
+    <main>
+        <section class="main-content">
+            <div class="intro">
+                <h1>Go anywhere with<br> Drive X</h1>
+                <form id="ride-form">
+                    <div class="form-group">
+                        <label>Pickup location</label>
+                        <input type="text" id="pickup-location" placeholder="Enter pickup location">
+                        <div id="suggestions" class="suggestions"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Dropoff location</label>
+                        <input type="text" id="dropoff-location" placeholder="Enter dropoff location">
+                        <div id="dropoff-suggestions" class="suggestions"></div>
+                    </div>
+                    <button type="button" onclick="window.location.href='/register'">See Price</button>
+
+                </form>
+            </div>
+            <div id="map"  style="width:700px; height: 550px;">
+
+            </div>
+              
+        </section>
+
+        <section class="info">
+            <div class="info-content">
+                <img src="{{ url_for('static', filename='image/driver.jpg') }}" alt="Drive X Image" id="driver-image">
+                <div class="info-text">
+                    <h1>Drive when you<br> want, make what<br> you need</h1>
+                    <p>Drive X is a user-centric ride-sharing<br> system.Here you can find your desired<br> car and go anywhere you want.</p>
+                    <div class="info-button">
+                        <button class="cta-button">Get started</button>
+                        <p>Already have an account? <a href="/register">Sign in</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="info2">
+            <div class="info2-content">
+                <div class="info2-text">
+                    <h1>Drive X does not<br>depend on third-party<br> drivers.</h1>
+                    <p>By reducing dependency on third-party drivers,we're<br> empowering individuals to have full access<br> over their transportation</p>
+                    <div class="info2-button">
+                        <button class="cta-button">Get started</button>
+                        <p>Already have an account? <a href="/register">Sign in</a></p>
+                    </div>
+                </div>
+                <img src="{{ url_for('static', filename='image/u4b.jpg') }}" alt="Drive X Image" id="u4b-image">
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <!-- Uber Logo and Help Center -->
+            <div class="footer-section">
+                <h2>Drive X</h2>
+                <a href="#">Visit Help Center</a>
+            </div>
+    
+            <!-- Footer Links -->
+            <div class="footer-links">
+                <div>
+                    <h3>Company</h3>
+                    <a href="#">About us</a>
+                    <a href="#">Our offerings</a>
+                    <a href="#">Newsroom</a>
+                    <a href="#">Investors</a>
+                    <a href="#">Blog</a>
+                    <a href="#">Careers</a>
+                </div>
+                <div>
+                    <h3>Products</h3>
+                    <a href="#">Ride</a>
+                    <a href="#">Drive</a>
+                    <a href="#">Deliver</a>
+                    <a href="#">Eat</a>
+                    <a href="#">Drive X for Business</a>
+                    <a href="#">Drive X Freight</a>
+                    <a href="#">Gift cards</a>
+                </div>
+                <div>
+                    <h3>Global citizenship</h3>
+                    <a href="#">Safety</a>
+                    <a href="#">Diversity and Inclusion</a>
+                    <a href="#">Sustainability</a>
+                </div>
+                <div>
+                    <h3>Travel</h3>
+                    <a href="#">Reserve</a>
+                    <a href="#">Cities</a>
+                </div>
+            </div>
+    
+            <!-- Social Media and App Links -->
+            <div class="footer-social">
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+                <div class="app-links">
+                    <a href="#"><img src="{{ url_for('static', filename='image/playstore.jpg') }}"  alt="Google Play"></a>
+                    <a href="#"><img src="{{ url_for('static', filename='image/appstore.jpg') }}"  alt="App Store"></a>
+                </div>
+            </div>
+    
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <p>&copy; 2024 Drive X Technologies Inc.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy</a>
+                    <a href="#">Accessibility</a>
+                    <a href="#">Terms</a>
+                </div>
+            </div>
+        </div>
+    </footer>    
+    <script>
+        const map = L.map('map').setView([23.8103, 90.4125], 12);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+        let marker;
+        let routeControl;
+        let pickupLocation;
+        let dropoffLocation;
+        let debounceTimer;
+
+        document.getElementById('pickup-location').addEventListener('input', function() {
+            handleInput(this, 'suggestions');
+        });
+
+        document.getElementById('dropoff-location').addEventListener('input', function() {
+            handleInput(this, 'dropoff-suggestions');
+        });
+
+        function handleInput(inputElement, suggestionsElementId) {
+            const query = inputElement.value.trim();
+
+            if (query.length < 3) {
+                document.getElementById(suggestionsElementId).innerHTML = '';
+                return;
+            }
+
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => fetchSuggestions(query, suggestionsElementId), 300);
+        }
+
+        async function fetchSuggestions(query, suggestionsElementId) {
+            try {
+                const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`, {
+                    headers: {
+                        "User-Agent": "DriveX (samiulalim01234@gmail.com)"
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok. Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                displaySuggestions(data, suggestionsElementId);
+            } catch (error) {
+                console.error("Error fetching suggestions:", error);
+                document.getElementById(suggestionsElementId).innerHTML = "<div class='error'>Failed to load suggestions. Try again.</div>";
+            }
+        }
+
+        function displaySuggestions(data, suggestionsElementId) {
+            const suggestionsBox = document.getElementById(suggestionsElementId);
+            suggestionsBox.innerHTML = '';
+
+            data.forEach(place => {
+                const suggestion = document.createElement('div');
+                suggestion.classList.add('suggestion-item');
+                suggestion.textContent = place.display_name;
+                suggestion.addEventListener('click', () => {
+                    if (suggestionsElementId === 'suggestions') {
+                        document.getElementById('pickup-location').value = place.display_name;
+                        pickupLocation = { lat: place.lat, lon: place.lon };
+                    } else {
+                        document.getElementById('dropoff-location').value = place.display_name;
+                        dropoffLocation = { lat: place.lat, lon: place.lon };
+                    }
+                    suggestionsBox.innerHTML = '';
+                    showLocationOnMap(place.lat, place.lon);
+
+                    if (pickupLocation && dropoffLocation) {
+                        showRoute(pickupLocation, dropoffLocation);
+                    }
+                });
+                suggestionsBox.appendChild(suggestion);
+            });
+        }
+
+        function showLocationOnMap(lat, lon) {
+            if (marker) {
+                map.removeLayer(marker);
+            }
+            marker = L.marker([lat, lon]).addTo(map);
+            map.setView([lat, lon], 14);
+        }
+
+        function showRoute(pickup, dropoff) {
+            if (routeControl) {
+                routeControl.setWaypoints([L.latLng(pickup.lat, pickup.lon), L.latLng(dropoff.lat, dropoff.lon)]);
+            } else {
+                routeControl = L.Routing.control({
+                    waypoints: [
+                        L.latLng(pickup.lat, pickup.lon),
+                        L.latLng(dropoff.lat, dropoff.lon)
+                    ],
+                    routeWhileDragging: true,
+                    lineOptions: { styles: [{ color: 'cornflowerblue', weight: 6 }] }
+                }).addTo(map);
+            }
+            
+        }
+        function toggleRoutingContainer() {
+
+            const routingContainer = document.querySelector('.leaflet-routing-container');
+        
+            if (routingContainer) {
+
+                if (routingContainer.classList.contains('minimized')) {
+                    routingContainer.style.maxHeight = '300px'; 
+                    routingContainer.classList.remove('minimized');
+                } else {
+                    routingContainer.style.maxHeight = '50px';
+                    routingContainer.classList.add('minimized');
+                }
+            }
+        }
+        map.on('click', function() {
+            toggleRoutingContainer();
+        });
+    </script>
+    
+</body>
+</html>

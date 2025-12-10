@@ -1,0 +1,295 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+:root {
+    --linear-grad: linear-gradient(to right, #141E30, #243B55);
+    --grad-clr1: #141E30;
+    --grad-clr2: #243B55;
+}
+
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    background-color: #f5f5f5;
+}
+
+
+header {
+    color: var(--grad-clr1);
+    padding: 10px 20px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+header nav{
+    margin-top: 15px;
+    background-color: var(--grad-clr2);
+    color: #fff;
+    padding: 5px 10px;
+    margin-left: 100px;
+    margin-right: 100px;
+    border-radius: 5px;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+
+}
+
+nav ul h1{
+    margin-right:385px;
+}
+nav ul p{
+    margin-left: 360px;
+    padding-top: 3px;
+    font-size: 19px;
+    cursor: pointer;
+    
+}
+nav ul li {
+    padding-top: 6px;
+    display: inline;
+    margin: 0 10px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+nav ul li a:hover {
+    color: #ccc;
+}
+
+main {
+    padding: 20px;
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+form {
+    background: #fff;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input, textarea, button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.section {
+    display: none;
+}
+
+.section.visible {
+    display: block;
+}
+
+
+button {
+    background: var(--grad-clr2);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background:var(--grad-clr1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+table th {
+    background-color: #f4f4f4;
+}
+
+/* Responsive Design */
+@media (max-width: 968px) {
+    header nav {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    
+    nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    nav ul h1 {
+        margin-right: 0;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    
+    nav ul p {
+        margin-left: 0;
+        width: 100%;
+        text-align: center;
+    }
+    
+    nav ul li {
+        margin: 5px;
+    }
+    
+    main {
+        padding: 15px;
+    }
+    
+    form {
+        padding: 12px;
+    }
+    
+    table {
+        font-size: 14px;
+    }
+    
+    table th,
+    table td {
+        padding: 8px;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        padding: 10px 15px;
+    }
+    
+    header nav {
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 10px;
+    }
+    
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    nav ul li {
+        width: 100%;
+        text-align: center;
+        margin: 0;
+    }
+    
+    nav ul li a {
+        display: block;
+        padding: 10px;
+    }
+    
+    main {
+        padding: 10px;
+    }
+    
+    form {
+        padding: 10px;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    input,
+    textarea,
+    select {
+        padding: 8px;
+        font-size: 14px;
+    }
+    
+    button {
+        padding: 10px;
+        font-size: 14px;
+    }
+    
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        font-size: 12px;
+    }
+    
+    table th,
+    table td {
+        padding: 6px;
+        min-width: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.2rem;
+    }
+    
+    nav ul p {
+        font-size: 16px;
+    }
+    
+    h2 {
+        font-size: 1.2rem;
+    }
+    
+    input,
+    textarea,
+    select {
+        padding: 8px;
+        font-size: 13px;
+    }
+    
+    button {
+        padding: 8px;
+        font-size: 13px;
+    }
+    
+    table {
+        font-size: 11px;
+    }
+    
+    table th,
+    table td {
+        padding: 5px;
+        min-width: 70px;
+    }
+    
+    label {
+        font-size: 14px;
+    }
+}
